@@ -7,7 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class FakePlatform with MockPlatformInterfaceMixin implements BiometricPassportNfcPlatform {
+class FakePlatform
+    with MockPlatformInterfaceMixin
+    implements BiometricPassportNfcPlatform {
   final events$ = StreamController<Map<dynamic, dynamic>>.broadcast();
   Map<String, String>? lastArgs;
   Object? error;
@@ -53,13 +55,24 @@ void main() {
   });
 
   test('default instance uses method channels', () {
-    expect(MethodChannelBiometricPassportNfc(), isA<BiometricPassportNfcPlatform>());
+    expect(
+      MethodChannelBiometricPassportNfc(),
+      isA<BiometricPassportNfcPlatform>(),
+    );
   });
 
   test('readPassport normalises input and parses the result', () async {
-    final data = await reader.readPassport(documentNumber: ' l898902c3 ', dateOfBirth: '740812', dateOfExpiry: '120415');
+    final data = await reader.readPassport(
+      documentNumber: ' l898902c3 ',
+      dateOfBirth: '740812',
+      dateOfExpiry: '120415',
+    );
 
-    expect(fake.lastArgs, {'doc': 'L898902C3', 'dob': '740812', 'exp': '120415'});
+    expect(fake.lastArgs, {
+      'doc': 'L898902C3',
+      'dob': '740812',
+      'exp': '120415',
+    });
     expect(data.fullName, 'ANNA MARIA ERIKSSON');
     expect(data.nationality, 'UTO');
     expect(data.faceImage, [1, 2, 3]);
@@ -69,17 +82,40 @@ void main() {
 
   test('rejects empty access-key fields without calling native', () async {
     await expectLater(
-      reader.readPassport(documentNumber: '', dateOfBirth: '740812', dateOfExpiry: '120415'),
-      throwsA(isA<PassportReadException>().having((e) => e.code, 'code', PassportReadErrorCode.invalidArguments)),
+      reader.readPassport(
+        documentNumber: '',
+        dateOfBirth: '740812',
+        dateOfExpiry: '120415',
+      ),
+      throwsA(
+        isA<PassportReadException>().having(
+          (e) => e.code,
+          'code',
+          PassportReadErrorCode.invalidArguments,
+        ),
+      ),
     );
     expect(fake.lastArgs, isNull);
   });
 
   test('maps PlatformException to PassportReadException', () async {
-    fake.error = PlatformException(code: 'SCAN_CANCELLED', message: 'Scan was cancelled by user');
+    fake.error = PlatformException(
+      code: 'SCAN_CANCELLED',
+      message: 'Scan was cancelled by user',
+    );
     await expectLater(
-      reader.readPassport(documentNumber: 'L898902C3', dateOfBirth: '740812', dateOfExpiry: '120415'),
-      throwsA(isA<PassportReadException>().having((e) => e.isCancelled, 'isCancelled', isTrue)),
+      reader.readPassport(
+        documentNumber: 'L898902C3',
+        dateOfBirth: '740812',
+        dateOfExpiry: '120415',
+      ),
+      throwsA(
+        isA<PassportReadException>().having(
+          (e) => e.isCancelled,
+          'isCancelled',
+          isTrue,
+        ),
+      ),
     );
   });
 

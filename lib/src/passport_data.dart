@@ -54,7 +54,10 @@ class PassportData {
   });
 
   String get fullName {
-    final parts = [givenNames.trim(), surname.trim()].where((s) => s.isNotEmpty);
+    final parts = [
+      givenNames.trim(),
+      surname.trim(),
+    ].where((s) => s.isNotEmpty);
     return parts.isEmpty ? 'Unknown' : parts.join(' ');
   }
 

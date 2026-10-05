@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'biometric_passport_nfc'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'Read ICAO 9303 biometric passports over NFC (PACE/BAC, DG1 identity, DG2 photo) on Android and iOS, with a live camera MRZ scanner.'
   s.description      = <<-DESC
 Read ICAO 9303 biometric passports over NFC (PACE/BAC, DG1 identity, DG2 photo) on Android and iOS, with a live camera MRZ scanner.

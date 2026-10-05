@@ -26,7 +26,8 @@ class MrzResult {
   int get hashCode => Object.hash(documentNumber, dateOfBirth, dateOfExpiry);
 
   @override
-  String toString() => 'MrzResult($documentNumber, $dateOfBirth, $dateOfExpiry)';
+  String toString() =>
+      'MrzResult($documentNumber, $dateOfBirth, $dateOfExpiry)';
 }
 
 class MrzParser {
@@ -36,8 +37,13 @@ class MrzParser {
 
   // Characters OCR commonly returns in place of digits.
   static const Map<String, String> _toDigit = {
-    'O': '0', 'Q': '0', 'D': '0', 'U': '0',
-    'I': '1', 'L': '1', 'T': '1',
+    'O': '0',
+    'Q': '0',
+    'D': '0',
+    'U': '0',
+    'I': '1',
+    'L': '1',
+    'T': '1',
     'Z': '2',
     'S': '5',
     'G': '6',
@@ -57,7 +63,11 @@ class MrzParser {
     for (final candidate in candidates) {
       if (candidate.length < _line2MinLength) continue;
       // The line may carry leading noise; slide over a few start offsets.
-      for (var start = 0; start + _line2MinLength <= candidate.length && start <= 4; start++) {
+      for (
+        var start = 0;
+        start + _line2MinLength <= candidate.length && start <= 4;
+        start++
+      ) {
         final result = _parseLine2(candidate.substring(start));
         if (result != null) return result;
       }
@@ -79,18 +89,30 @@ class MrzParser {
     final dobCheck = _digits(line.substring(19, 20));
     final expiry = _digits(line.substring(21, 27));
     final expiryCheck = _digits(line.substring(27, 28));
-    if (dob == null || dobCheck == null || expiry == null || expiryCheck == null) return null;
+    if (dob == null ||
+        dobCheck == null ||
+        expiry == null ||
+        expiryCheck == null) {
+      return null;
+    }
     if (!_isValidDate(dob) || !_isValidDate(expiry)) return null;
-    if (checkDigit(dob) != dobCheck || checkDigit(expiry) != expiryCheck) return null;
+    if (checkDigit(dob) != dobCheck || checkDigit(expiry) != expiryCheck) {
+      return null;
+    }
 
     final docCheck = _digits(line.substring(9, 10));
     if (docCheck == null) return null;
     // 'K' and '<' both weigh 0 mod 10 in the check digit, so a '<' filler misread as 'K'
     // still validates. If the optional-data area (normally all '<') also shows 'K's, this
     // frame is confusing the two, so treat trailing 'K's in the document number as filler.
-    final optionalData = line.length > 28 ? line.substring(28, line.length.clamp(28, 42)) : '';
+    final optionalData = line.length > 28
+        ? line.substring(28, line.length.clamp(28, 42))
+        : '';
     final fillerReadAsK = optionalData.contains('K');
-    for (final doc in _documentNumberVariants(line.substring(0, 9), preferStripTrailingK: fillerReadAsK)) {
+    for (final doc in _documentNumberVariants(
+      line.substring(0, 9),
+      preferStripTrailingK: fillerReadAsK,
+    )) {
       if (checkDigit(doc) == docCheck) {
         return MrzResult(
           documentNumber: doc.replaceAll('<', ''),
@@ -104,7 +126,10 @@ class MrzParser {
 
   /// The document number is alphanumeric, so OCR fixes are ambiguous. Try the raw
   /// read plus common corrections; the check digit decides which (if any) is right.
-  static Iterable<String> _documentNumberVariants(String raw, {required bool preferStripTrailingK}) sync* {
+  static Iterable<String> _documentNumberVariants(
+    String raw, {
+    required bool preferStripTrailingK,
+  }) sync* {
     if (!RegExp(r'^[A-Z0-9<]+$').hasMatch(raw)) return;
     final strippedK = raw.replaceFirst(RegExp(r'K+$'), '').padRight(9, '<');
     if (preferStripTrailingK && strippedK != raw) yield strippedK;

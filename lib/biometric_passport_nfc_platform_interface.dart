@@ -9,7 +9,8 @@ abstract class BiometricPassportNfcPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static BiometricPassportNfcPlatform _instance = MethodChannelBiometricPassportNfc();
+  static BiometricPassportNfcPlatform _instance =
+      MethodChannelBiometricPassportNfc();
 
   static BiometricPassportNfcPlatform get instance => _instance;
 

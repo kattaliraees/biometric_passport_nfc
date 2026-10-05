@@ -16,11 +16,14 @@ class MrzScannerScreen extends StatefulWidget {
   State<MrzScannerScreen> createState() => _MrzScannerScreenState();
 }
 
-class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBindingObserver {
+class _MrzScannerScreenState extends State<MrzScannerScreen>
+    with WidgetsBindingObserver {
   // Identical valid reads required before accepting, to guard against a lucky misread.
   static const int _requiredMatches = 2;
 
-  final TextRecognizer _recognizer = TextRecognizer(script: TextRecognitionScript.latin);
+  final TextRecognizer _recognizer = TextRecognizer(
+    script: TextRecognitionScript.latin,
+  );
 
   CameraController? _controller;
   CameraDescription? _camera;
@@ -51,7 +54,9 @@ class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBinding
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive) {
       _disposeCamera();
-    } else if (state == AppLifecycleState.resumed && _controller == null && !_isDone) {
+    } else if (state == AppLifecycleState.resumed &&
+        _controller == null &&
+        !_isDone) {
       _initCamera();
     }
   }
@@ -67,7 +72,9 @@ class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBinding
         back,
         ResolutionPreset.high,
         enableAudio: false,
-        imageFormatGroup: Platform.isAndroid ? ImageFormatGroup.nv21 : ImageFormatGroup.bgra8888,
+        imageFormatGroup: Platform.isAndroid
+            ? ImageFormatGroup.nv21
+            : ImageFormatGroup.bgra8888,
       );
       await controller.initialize();
       await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
@@ -88,7 +95,8 @@ class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBinding
     } on CameraException catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = e.code.contains('AccessDenied') || e.code.contains('Restricted')
+        _error =
+            e.code.contains('AccessDenied') || e.code.contains('Restricted')
             ? 'Camera permission denied. Enable camera access for this app in Settings.'
             : 'Could not start camera: ${e.description ?? e.code}';
       });
@@ -151,7 +159,9 @@ class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBinding
     if (camera == null) return null;
 
     // Orientation is locked to portrait, so the image rotation is just the sensor's.
-    final rotation = InputImageRotationValue.fromRawValue(camera.sensorOrientation);
+    final rotation = InputImageRotationValue.fromRawValue(
+      camera.sensorOrientation,
+    );
     final format = InputImageFormatValue.fromRawValue(image.format.raw);
     if (rotation == null || format == null) return null;
     // nv21 (Android) and bgra8888 (iOS) are single-plane, as ML Kit expects.
@@ -208,14 +218,14 @@ class _MrzScannerScreenState extends State<MrzScannerScreen> with WidgetsBinding
               ),
             )
           : controller == null || !controller.value.isInitialized
-              ? const Center(child: CircularProgressIndicator())
-              : Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Center(child: CameraPreview(controller)),
-                    const _MrzOverlay(),
-                  ],
-                ),
+          ? const Center(child: CircularProgressIndicator())
+          : Stack(
+              fit: StackFit.expand,
+              children: [
+                Center(child: CameraPreview(controller)),
+                const _MrzOverlay(),
+              ],
+            ),
     );
   }
 }
@@ -234,7 +244,10 @@ class _MrzOverlay extends StatelessWidget {
         return Stack(
           children: [
             ColorFiltered(
-              colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.55), BlendMode.srcOut),
+              colorFilter: ColorFilter.mode(
+                Colors.black.withValues(alpha: 0.55),
+                BlendMode.srcOut,
+              ),
               child: Stack(
                 children: [
                   Container(
@@ -273,7 +286,11 @@ class _MrzOverlay extends StatelessWidget {
                 child: Text(
                   'Line up the two lines of <<< text at the bottom of the photo page inside the box. Hold steady with good lighting.',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    height: 1.4,
+                  ),
                 ),
               ),
             ),

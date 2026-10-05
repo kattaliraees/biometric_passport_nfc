@@ -1,3 +1,12 @@
+## 1.0.2
+
+* iOS: Swift Package Manager support (CocoaPods still supported).
+* Code formatted with `dart format`.
+
+## 1.0.1
+
+* Added homepage and repository links.
+
 ## 1.0.0
 
 * Initial release.

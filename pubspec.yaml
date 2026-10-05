@@ -1,6 +1,6 @@
 name: biometric_passport_nfc
 description: "Read ICAO 9303 biometric passports over NFC (PACE/BAC, DG1 identity, DG2 photo) on Android and iOS, with automatic recovery from dropped connections."
-version: 1.0.1
+version: 1.0.2
 homepage: 'https://github.com/kattaliraees/biometric_passport_nfc'
 repository: 'https://github.com/kattaliraees/biometric_passport_nfc'
 topics:

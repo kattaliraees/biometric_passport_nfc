@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:biometric_passport_nfc_example/main.dart';
 
 void main() {
-  testWidgets('Renders ePassport scan root screen with editable credentials', (WidgetTester tester) async {
+  testWidgets('Renders ePassport scan root screen with editable credentials', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const BiometricPassportNfcExampleApp());
 
     expect(find.text('Biometric Passport NFC'), findsOneWidget);
@@ -12,13 +14,18 @@ void main() {
     // Credential fields start empty
     for (final key in ['docNumberField', 'dobField', 'expiryField']) {
       final field = tester.widget<TextField>(
-        find.descendant(of: find.byKey(Key(key)), matching: find.byType(TextField)),
+        find.descendant(
+          of: find.byKey(Key(key)),
+          matching: find.byType(TextField),
+        ),
       );
       expect(field.controller!.text, isEmpty);
     }
   });
 
-  testWidgets('Validates input fields on scan attempt', (WidgetTester tester) async {
+  testWidgets('Validates input fields on scan attempt', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const BiometricPassportNfcExampleApp());
 
     final docFinder = find.byKey(const Key('docNumberField'));

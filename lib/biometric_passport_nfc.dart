@@ -26,11 +26,13 @@ export 'src/passport_read_exception.dart';
 export 'src/passport_scan_event.dart';
 
 class BiometricPassportNfc {
-  BiometricPassportNfcPlatform get _platform => BiometricPassportNfcPlatform.instance;
+  BiometricPassportNfcPlatform get _platform =>
+      BiometricPassportNfcPlatform.instance;
 
   /// Progress updates for the current read. Broadcast; listen before calling
   /// [readPassport] to receive the first events.
-  Stream<PassportScanEvent> get events => _platform.events.map(PassportScanEvent.fromMap);
+  Stream<PassportScanEvent> get events =>
+      _platform.events.map(PassportScanEvent.fromMap);
 
   /// Starts an NFC session and reads DG1 (identity) and DG2 (portrait).
   ///
@@ -53,10 +55,18 @@ class BiometricPassportNfc {
       );
     }
     try {
-      final map = await _platform.readPassport(documentNumber: doc, dateOfBirth: dob, dateOfExpiry: expiry);
+      final map = await _platform.readPassport(
+        documentNumber: doc,
+        dateOfBirth: dob,
+        dateOfExpiry: expiry,
+      );
       return PassportData.fromMap(map);
     } on PlatformException catch (e) {
-      throw PassportReadException(e.code, e.message ?? 'NFC reading failed', e.details);
+      throw PassportReadException(
+        e.code,
+        e.message ?? 'NFC reading failed',
+        e.details,
+      );
     }
   }
 

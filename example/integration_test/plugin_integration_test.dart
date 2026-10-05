@@ -10,7 +10,11 @@ void main() {
   testWidgets('native plugin is registered', (tester) async {
     final reader = BiometricPassportNfc();
     await expectLater(
-      reader.readPassport(documentNumber: '', dateOfBirth: '', dateOfExpiry: ''),
+      reader.readPassport(
+        documentNumber: '',
+        dateOfBirth: '',
+        dateOfExpiry: '',
+      ),
       throwsA(isA<PassportReadException>()),
     );
     await reader.cancel();

@@ -95,7 +95,8 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
           switch (event.step) {
             case PassportScanStep.connectionLost:
               _nfcConnected = false;
-            case PassportScanStep.tagDiscovered || PassportScanStep.tagConnected:
+            case PassportScanStep.tagDiscovered ||
+                PassportScanStep.tagConnected:
               _nfcConnected = true;
             case PassportScanStep.paceSuccess:
               _authStatus = 'PACE Success';
@@ -192,7 +193,11 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
     });
     _formKey.currentState?.validate();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Details filled from MRZ. Please verify before scanning.')),
+      const SnackBar(
+        content: Text(
+          'Details filled from MRZ. Please verify before scanning.',
+        ),
+      ),
     );
   }
 
@@ -325,7 +330,11 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.badge_outlined, color: theme.colorScheme.primary, size: 22),
+                      Icon(
+                        Icons.badge_outlined,
+                        color: theme.colorScheme.primary,
+                        size: 22,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Passport Credentials',
@@ -379,8 +388,13 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
                   labelText: 'Document Number',
                   hintText: 'e.g. L898902C3',
                   prefixIcon: const Icon(Icons.pin_outlined, size: 20),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
                   isDense: true,
                 ),
                 validator: _validateDocNumber,
@@ -403,8 +417,13 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
                         labelText: 'DOB (YYMMDD)',
                         hintText: 'YYMMDD',
                         prefixIcon: const Icon(Icons.cake_outlined, size: 20),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
                         isDense: true,
                       ),
                       validator: (val) => _validateDate(val, 'Date of birth'),
@@ -425,8 +444,13 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
                         labelText: 'Expiry (YYMMDD)',
                         hintText: 'YYMMDD',
                         prefixIcon: const Icon(Icons.event_outlined, size: 20),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
                         isDense: true,
                       ),
                       validator: (val) => _validateDate(val, 'Expiry date'),
@@ -448,7 +472,9 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
         key: const Key('scanButton'),
         onPressed: _startScan,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           elevation: 2,
         ),
         icon: const Icon(Icons.nfc, size: 28),
@@ -466,12 +492,18 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
       decoration: BoxDecoration(
         color: theme.colorScheme.primaryContainer.withValues(alpha: 0.35),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         children: [
           if (_connectionLost)
-            Icon(Icons.signal_wifi_bad, size: 36, color: theme.colorScheme.error)
+            Icon(
+              Icons.signal_wifi_bad,
+              size: 36,
+              color: theme.colorScheme.error,
+            )
           else
             const SizedBox(
               height: 36,
@@ -484,7 +516,9 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: _connectionLost ? theme.colorScheme.error : theme.colorScheme.primary,
+              color: _connectionLost
+                  ? theme.colorScheme.error
+                  : theme.colorScheme.primary,
             ),
           ),
           if (_readProgress != null) ...[
@@ -503,7 +537,9 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
           OutlinedButton(
             onPressed: _cancelScan,
             style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             child: const Text('Cancel Scan'),
           ),
@@ -525,7 +561,9 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
         children: [
           Text(
             'Protocol Status',
-            style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
@@ -624,7 +662,9 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
       decoration: BoxDecoration(
         color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.error.withValues(alpha: 0.3)),
+        border: Border.all(
+          color: theme.colorScheme.error.withValues(alpha: 0.3),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -680,12 +720,20 @@ class _PassportScanScreenState extends State<PassportScanScreen> {
                         ? Image.memory(
                             data.faceImage!,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => const Center(
-                              child: Icon(Icons.broken_image, color: Colors.grey),
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                           )
                         : const Center(
-                            child: Icon(Icons.person, size: 48, color: Colors.grey),
+                            child: Icon(
+                              Icons.person,
+                              size: 48,
+                              color: Colors.grey,
+                            ),
                           ),
                   ),
                 ),

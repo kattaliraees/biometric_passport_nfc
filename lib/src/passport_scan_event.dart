@@ -31,7 +31,10 @@ enum PassportScanStep {
   unknown;
 
   static PassportScanStep fromName(String? name) =>
-      PassportScanStep.values.firstWhere((s) => s.name == name, orElse: () => PassportScanStep.unknown);
+      PassportScanStep.values.firstWhere(
+        (s) => s.name == name,
+        orElse: () => PassportScanStep.unknown,
+      );
 }
 
 /// Progress update emitted on [BiometricPassportNfc.events] during a read.
@@ -44,14 +47,20 @@ class PassportScanEvent {
   /// 0–100 for [PassportScanStep.readingDg2], otherwise null.
   final int? progress;
 
-  const PassportScanEvent({required this.step, required this.message, this.progress});
+  const PassportScanEvent({
+    required this.step,
+    required this.message,
+    this.progress,
+  });
 
-  factory PassportScanEvent.fromMap(Map<dynamic, dynamic> map) => PassportScanEvent(
+  factory PassportScanEvent.fromMap(Map<dynamic, dynamic> map) =>
+      PassportScanEvent(
         step: PassportScanStep.fromName(map['step'] as String?),
         message: (map['message'] as String?) ?? '',
         progress: map['progress'] as int?,
       );
 
   @override
-  String toString() => 'PassportScanEvent(${step.name}, $message${progress == null ? '' : ', $progress%'})';
+  String toString() =>
+      'PassportScanEvent(${step.name}, $message${progress == null ? '' : ', $progress%'})';
 }

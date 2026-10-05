@@ -14,8 +14,9 @@ class MethodChannelBiometricPassportNfc extends BiometricPassportNfcPlatform {
   Stream<Map<dynamic, dynamic>>? _events;
 
   @override
-  Stream<Map<dynamic, dynamic>> get events =>
-      _events ??= eventChannel.receiveBroadcastStream().map((e) => e as Map<dynamic, dynamic>);
+  Stream<Map<dynamic, dynamic>> get events => _events ??= eventChannel
+      .receiveBroadcastStream()
+      .map((e) => e as Map<dynamic, dynamic>);
 
   @override
   Future<Map<dynamic, dynamic>> readPassport({
@@ -23,13 +24,17 @@ class MethodChannelBiometricPassportNfc extends BiometricPassportNfcPlatform {
     required String dateOfBirth,
     required String dateOfExpiry,
   }) async {
-    final result = await methodChannel.invokeMethod<Map<dynamic, dynamic>>('readPassport', {
-      'documentNumber': documentNumber,
-      'dateOfBirth': dateOfBirth,
-      'dateOfExpiry': dateOfExpiry,
-    });
+    final result = await methodChannel
+        .invokeMethod<Map<dynamic, dynamic>>('readPassport', {
+          'documentNumber': documentNumber,
+          'dateOfBirth': dateOfBirth,
+          'dateOfExpiry': dateOfExpiry,
+        });
     if (result == null) {
-      throw PlatformException(code: 'READ_ERROR', message: 'Empty response from native reader');
+      throw PlatformException(
+        code: 'READ_ERROR',
+        message: 'Empty response from native reader',
+      );
     }
     return result;
   }

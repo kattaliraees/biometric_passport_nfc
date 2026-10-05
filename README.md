@@ -28,7 +28,7 @@ Your app collects these (typed in, or scanned with the camera), then passes them
 
 ```yaml
 dependencies:
-  biometric_passport_nfc: ^1.0.0
+  biometric_passport_nfc: ^1.0.2
 ```
 
 ### iOS setup
