@@ -1,0 +1,32 @@
+name: biometric_passport_nfc
+description: "Read ICAO 9303 biometric passports over NFC (PACE/BAC, DG1 identity, DG2 photo) on Android and iOS, with automatic recovery from dropped connections."
+version: 1.0.0
+topics:
+  - nfc
+  - passport
+  - mrz
+  - icao
+  - identity
+
+environment:
+  sdk: ^3.8.0
+  flutter: '>=3.32.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: dev.biometricpassport.biometric_passport_nfc
+        pluginClass: BiometricPassportNfcPlugin
+      ios:
+        pluginClass: BiometricPassportNfcPlugin

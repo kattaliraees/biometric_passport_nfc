@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.NFC" />
+    <!-- Not required, so the app can still be installed on devices without NFC. -->
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+</manifest>
